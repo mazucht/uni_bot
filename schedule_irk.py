@@ -1,5 +1,5 @@
-import requests as r
 from bs4 import BeautifulSoup
+import requests as r
 
 # все лекций и их классы
 types = {
@@ -8,16 +8,17 @@ types = {
            'schcls-item-distype type-3' : 'лабораторная работа'
          }
 
-class ScheduleParser():
+class ScheduleParserIrk():
     def __init__(self):
         # инструменты поиска
-        site = r.get('https://www.istu.edu/raspisanie/grup/478232')
-        finder = BeautifulSoup(site.text, 'html.parser')
+        self.site = r.get('https://www.istu.edu/raspisanie/grup/478232')
+        self.finder = BeautifulSoup(self.site.text, 'html.parser')
 
+    def find(self):
         # информация о всех днях рабочей недели
-        days = finder.find_all('div', 'sch-list-day')
+        days = self.finder.find_all('div', 'sch-list-day')
 
-        # создание основного словаря для хранения всех данных
+        # создание основного словаря для хранения данных расписания
         self.schedule = {}
 
         # перебор информации о каждом рабочем дне
